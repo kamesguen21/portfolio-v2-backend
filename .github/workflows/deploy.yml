@@ -1,0 +1,42 @@
+name: Build and Deploy Strapi with PM2
+
+on:
+  push:
+    branches:
+      - develop  # Trigger the action on push to develop branch
+
+jobs:
+  build:
+    runs-on: self-hosted  # Use your self-hosted runner
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Step 2: Set up Node.js (Specify your Node version if necessary)
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'  # Adjust to your node version if needed
+
+      # Step 3: Install PM2 globally (if not already installed)
+      - name: Install PM2
+        run: |
+          sudo npm install -g pm2
+
+      # Step 4: Install Strapi dependencies
+      - name: Install Strapi dependencies
+        run: |
+          npm install
+
+      # Step 5: Build Strapi project
+      - name: Build Strapi
+        run: |
+          npm run build
+
+      # Step 6: Deploy using PM2
+      - name: Start Strapi with PM2
+        run: |
+          pm2 stop portfolio-strapi || true  # Stop any existing Strapi process
+          pm2 start npm --name portfolio-strapi -- start  # Start the Strapi app
+          pm2 save  # Save PM2 process list to restart on system reboot
