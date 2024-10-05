@@ -1,0 +1,36 @@
+{
+  "collectionName": "components_objects_items",
+  "info": {
+    "displayName": "Item",
+    "icon": "plus",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "slug": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "shortDescription": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "Logo": {
+      "displayName": "Asset",
+      "type": "component",
+      "repeatable": false,
+      "component": "objects.asset"
+    },
+    "Screenshots": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": true
+    }
+  }
+}

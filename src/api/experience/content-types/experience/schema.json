@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "experiences",
+  "info": {
+    "singularName": "experience",
+    "pluralName": "experiences",
+    "displayName": "Experience"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Item": {
+      "type": "component",
+      "repeatable": false,
+      "component": "objects.item"
+    },
+    "Company": {
+      "type": "string"
+    },
+    "Location": {
+      "type": "string"
+    },
+    "Contract": {
+      "type": "enumeration",
+      "enum": [
+        "Full-time",
+        "Part-time",
+        "Self-employed",
+        "Freelance",
+        "Contract",
+        "Internship"
+      ]
+    }
+  }
+}

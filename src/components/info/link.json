@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_info_links",
+  "info": {
+    "displayName": "Link",
+    "icon": "link"
+  },
+  "options": {},
+  "attributes": {
+    "link": {
+      "type": "string"
+    },
+    "Platform": {
+      "type": "enumeration",
+      "enum": [
+        "github",
+        "stackoverflow",
+        "twitter",
+        "linkedin",
+        "email",
+        "facebook",
+        "youtube"
+      ]
+    }
+  }
+}

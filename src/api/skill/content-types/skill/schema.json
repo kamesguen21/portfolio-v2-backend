@@ -1,0 +1,43 @@
+{
+  "kind": "collectionType",
+  "collectionName": "skills",
+  "info": {
+    "singularName": "skill",
+    "pluralName": "skills",
+    "displayName": "Skill",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "category": {
+      "type": "enumeration",
+      "enum": [
+        "pro-lang",
+        "framework",
+        "library",
+        "lang",
+        "db",
+        "orm",
+        "devops",
+        "test",
+        "devtools",
+        "markup-style",
+        "design",
+        "soft"
+      ]
+    },
+    "Item": {
+      "type": "component",
+      "repeatable": false,
+      "component": "objects.item"
+    },
+    "color": {
+      "type": "component",
+      "repeatable": true,
+      "component": "objects.color"
+    }
+  }
+}

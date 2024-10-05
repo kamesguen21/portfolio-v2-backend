@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_info_periods",
+  "info": {
+    "displayName": "Period",
+    "icon": "calendar"
+  },
+  "options": {},
+  "attributes": {
+    "from": {
+      "type": "date"
+    },
+    "to": {
+      "type": "date"
+    }
+  }
+}
