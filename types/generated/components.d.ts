@@ -22,6 +22,7 @@ export interface ObjectsColor extends Struct.ComponentSchema {
   info: {
     displayName: 'color';
     icon: 'paint';
+    description: '';
   };
   attributes: {
     NamedColor: Schema.Attribute.Enumeration<
@@ -175,8 +176,6 @@ export interface ObjectsColor extends Struct.ComponentSchema {
         'yellowgreen',
       ]
     >;
-    hex: Schema.Attribute.String &
-      Schema.Attribute.CustomField<'plugin::color-picker.color'>;
   };
 }
 
