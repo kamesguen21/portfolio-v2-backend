@@ -7,11 +7,12 @@ on:
 
 jobs:
   build:
-    runs-on: self-hosted  # Use your self-hosted runner
+    runs-on: ubuntu-latest  # Use GitHub's public runner
+
     steps:
       # Step 1: Checkout the repository
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       # Step 2: Set up Node.js (Specify your Node version if necessary)
       - name: Set up Node.js
@@ -19,24 +20,42 @@ jobs:
         with:
           node-version: '20'  # Adjust to your node version if needed
 
-      # Step 3: Install PM2 globally (if not already installed)
-      - name: Install PM2
-        run: |
-          sudo npm install -g pm2
-
-      # Step 4: Install Strapi dependencies
-      - name: Install Strapi dependencies
+      # Step 3: Install Strapi dependencies and build the project
+      - name: Install and Build Strapi
         run: |
           npm install
-
-      # Step 5: Build Strapi project
-      - name: Build Strapi
-        run: |
           npm run build
 
-      # Step 6: Deploy using PM2
-      - name: Start Strapi with PM2
+      # Step 4: Remove node_modules after build
+      - name: Remove node_modules
         run: |
-          pm2 stop portfolio-strapi || true  # Stop any existing Strapi process
-          pm2 start npm --name portfolio-strapi -- start  # Start the Strapi app
-          pm2 save  # Save PM2 process list to restart on system reboot
+          rm -rf node_modules  # Ensure node_modules is deleted before archiving
+
+      # Step 5: Archive all project files (excluding node_modules)
+      - name: Archive build files
+        run: |
+          tar -czf build.tar.gz .
+
+      # Step 6: Set up SSH to access the server
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      # Step 7: Copy build files to the server
+      - name: Copy build files via SCP
+        run: |
+          scp -o StrictHostKeyChecking=no build.tar.gz githubuser@51.75.247.176:/var/www/portfolio-back
+
+      # Step 8: SSH into the server, unpack, and deploy using PM2
+      - name: Deploy on the server
+        run: |
+          ssh -o StrictHostKeyChecking=no githubuser@51.75.247.176 "
+            cd /var/www/portfolio-back &&
+            rm -rf * &&  # Clean up the existing files in the directory
+            tar -xzf build.tar.gz &&
+            npm install --production &&  # Install only production dependencies
+            pm2 stop portfolio-strapi || true &&  # Stop any existing Strapi process
+            pm2 start npm --name portfolio-strapi -- start &&  # Start the Strapi app
+            pm2 save
+          "
